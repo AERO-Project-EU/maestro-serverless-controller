@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+
+  serverless-controller:
+    image: registry.ubitech.eu/cs3/rnd/aero/knative-serverless-controller:1.0.0
+    container_name: serverless-controller
+    restart: unless-stopped
+    environment:
+      QUARKUS_HTTP_PORT: ${QUARKUS_HTTP_PORT}
+      MAESTRO_REST_API_URL: ${MAESTRO_REST_API_URL}
+      BACKEND_AUTH_SERVER_URL: ${BACKEND_AUTH_SERVER_URL}
+      BACKEND_CLIENT_ID: ${BACKEND_CLIENT_ID}
+      BACKEND_CLIENT_SECRET: ${BACKEND_CLIENT_SECRET}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_ADMIN_USERNAME: ${KEYCLOAK_ADMIN_USERNAME}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KEYCLOAK_ADMIN_CLIENT: ${KEYCLOAK_ADMIN_CLIENT}
+      KEYCLOAK_ADMIN_REALM: ${KEYCLOAK_ADMIN_REALM}
+    ports:
+      - "9500:9500"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9500/q/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
