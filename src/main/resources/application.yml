@@ -1,1 +1,45 @@
-{}
+quarkus:
+  http:
+    port: 9500
+    cors:
+      ~: true
+      origins: "*"
+  smallrye-openapi:
+    info-title: Knative-Serverless-Controller
+    info-contact-email: info@ubitech.eu
+    info-contact-name: UBITECH Ltd.
+    info-contact-url: https://ubitech.eu/
+  rest-client:
+    # Assuming Maestro is running on port 8080
+    maestro-rest-api:
+      url: http://localhost:8080/
+      scope: javax.inject.Singleton
+k8s:
+  aero:
+    masterUrl: [complete]
+    caData: [complete]
+    ccData: [complete]
+    ckData: [complete]
+  local:
+    masterUrl: [complete]
+    caData: [complete]
+    ccData: [complete]
+    ckData: [complete]
+
+
+"%prod":
+  quarkus:
+    http:
+      port: ${QUARKUS_HTTP_PORT:9500}
+      cors:
+        ~: true
+        origins: "*"
+  smallrye-openapi:
+    info-title: Knative-Serverless-Controller
+    info-contact-email: info@ubitech.eu
+    info-contact-name: UBITECH Ltd.
+    info-contact-url: https://ubitech.eu/
+  rest-client:
+    maestro-rest-api:
+      url: ${MAESTRO_REST_API_URL}
+      scope: javax.inject.Singleton
