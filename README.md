@@ -52,8 +52,6 @@ You can start the application in dev mode using:
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:9500/q/dev/.
-
 ### Packaging and running the application
 
 The application can be packaged using:
@@ -94,3 +92,12 @@ There are two docker-compose files:
 
 - *docker-compose.yml* which will use the dev profile properties of the project
 - *docker-compose.prod.yml* which can be used along with .env file (as one in .env.example) to set specifically the parametres of the project.
+
+You can start the dockerized version using:  
+```
+#Dev version
+docker compose up -d 
+
+#Production version
+docker compose -f docker-compose.prod.yml
+```
