@@ -44,6 +44,8 @@ You can set project parameters in **src/main/resources/application.yaml** file:
 - *quarkus.rest-client.maestro-rest-api.url* is the url in which the MAESTRO backend is running
 - *quarkus.oidc.credentials.secret* the client secret of the backend client in keycloak (the service currently runs with no keyclok auth)
 
+Knative-Controller requires communication with MAESTRO. You can either run MAESTRO locally, or use a remote version. 
+In either case, you should fill in the MAESTRO backend url under the project parameters as mentioned above.
 
 ### Running the application in dev mode
 

@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   serverless-controller:
-    image: registry.ubitech.eu/cs3/rnd/aero/knative-serverless-controller:1.0.0
+    image: registry.ubitech.eu/cs3/rnd/aero/knative-serverless-controller:1.0.1
     container_name: serverless-controller
     restart: unless-stopped
     ports:
