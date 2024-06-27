@@ -18,18 +18,18 @@ public class ServerlessDeploymentService {
     @Inject
     MaestroAuthService maestroAuthService;
 
-    public Response requestDeployment(Long applicationInstanceID) {
+    public Response requestDeployment(Long applicationInstanceID, String authToken) {
         try {
-            String authToken = maestroAuthService.maestroAuthenticate();
+//            String authToken = maestroAuthService.maestroAuthenticate();
             return maestroRestClient.requestDeployment(authToken, applicationInstanceID);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Response requestUndeployment(Long applicationInstanceID) {
+    public Response requestUndeployment(Long applicationInstanceID, String authToken) {
         try {
-            String authToken = maestroAuthService.maestroAuthenticate();
+//            String authToken = maestroAuthService.maestroAuthenticate();
             return maestroRestClient.requestUndeployment(authToken, applicationInstanceID);
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -28,7 +28,7 @@ public class ServerlessDeploymentResource {
 
 
     @POST
-    @Path("/{applicationInstanceID}/request/deployment")
+    @Path("/applicationinstance/{applicationInstanceID}/request/deployment")
     @Operation(summary = "Request Serverless Application Deployment", description = "Request Deployment to Knative for the application with id applicationInstanceID")
     @Parameter(name = "applicationInstanceID", description = "The applicationInstanceID value of the application to be deployed to knative", required = true)
     @APIResponses(value = {
@@ -49,9 +49,9 @@ public class ServerlessDeploymentResource {
                     )
             )
     })
-    public Response requestDeployment(@PathParam("applicationInstanceID") Long applicationInstanceID) {
+    public Response requestDeployment(@PathParam("applicationInstanceID") Long applicationInstanceID, @CookieParam("auth_token") String authToken) {
         try {
-            Response res = serverlessDeploymentService.requestDeployment(applicationInstanceID);
+            Response res = serverlessDeploymentService.requestDeployment(applicationInstanceID, authToken);
             return Response.ok().entity(new GenericMessageDto(GenericMessageDto.DEPLOYMENT_REQUEST_SUCCESSFUL)).build();
         } catch (Exception e) {
             log.log(Level.SEVERE, e.getMessage());
@@ -60,7 +60,7 @@ public class ServerlessDeploymentResource {
     }
 
     @POST
-    @Path("/{applicationInstanceID}/request/undeployment")
+    @Path("/applicationinstance/{applicationInstanceID}/request/undeployment")
     @Operation(summary = "Request Serverless Application Undeployment", description = "Request Undeployment to Knative for the application with id applicationInstanceID")
     @Parameter(name = "applicationInstanceID", description = "The applicationInstanceID value of the application to be undeployed from knative", required = true)
     @APIResponses(value = {
@@ -81,9 +81,9 @@ public class ServerlessDeploymentResource {
                     )
             )
     })
-    public Response requestUndeployment(@PathParam("applicationInstanceID") Long applicationInstanceID) {
+    public Response requestUndeployment(@PathParam("applicationInstanceID") Long applicationInstanceID, @CookieParam("auth_token") String authToken) {
         try {
-            Response res = serverlessDeploymentService.requestUndeployment(applicationInstanceID);
+            Response res = serverlessDeploymentService.requestUndeployment(applicationInstanceID, authToken);
             return Response.ok().entity(new GenericMessageDto(GenericMessageDto.UNDEPLOYMENT_REQUEST_SUCCESSFUL)).build();
         } catch (Exception e) {
             log.log(Level.SEVERE, e.getMessage());
