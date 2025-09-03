@@ -1,6 +1,6 @@
 # Knative-Serverless-Controller
 
-A Quarkus Microservice to handle Serverless Knative Deployments
+A Quarkus Microservice to handle Serverless Knative Deployments 
 
 [![License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -36,7 +36,17 @@ The exposed rest services are documented using the **OpenAPI v3.0.3** specificat
 
 ## **Project Setup and Usage**
 
-This project is built using **[Quarkus](https://quarkus.io/) Java Framework v3.11.1**. In order to run the application in development mode you will need **Java v17**, and **Maven version 3.9.6** or higher. Optionally, to produce native executable version you will need **GraalVM v22.2.0 or higher**.
+This project is built using **[Quarkus](https://quarkus.io/) Java Framework v3.14.1**. In order to run the application in development mode you will need **Java v17**, and **Maven version 3.9.6** or higher. Optionally, to produce native executable version you will need **GraalVM v23 or higher**.
+
+The output of Java used:
+
+```text
+java --version
+
+openjdk 17.0.9 2023-10-17
+OpenJDK Runtime Environment GraalVM CE 17.0.9+9.1 (build 17.0.9+9-jvmci-23.0-b22)
+OpenJDK 64-Bit Server VM GraalVM CE 17.0.9+9.1 (build 17.0.9+9-jvmci-23.0-b22, mixed mode, sharing)
+```
 
 You can set project parameters in **src/main/resources/application.yaml** file:
 

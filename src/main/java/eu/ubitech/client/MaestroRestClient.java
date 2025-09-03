@@ -31,4 +31,9 @@ public interface MaestroRestClient {
     @Produces(MediaType.APPLICATION_JSON)
     Response requestUndeployment(@CookieParam("auth_token") String authToken, @PathParam("applicationInstanceID") Long applicationInstanceID);
 
+    @GET
+    @Path("status")
+    @Produces(MediaType.TEXT_PLAIN)
+    String getDummyMaestroStatus();
+
 }

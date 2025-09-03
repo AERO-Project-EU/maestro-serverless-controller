@@ -47,11 +47,37 @@ public class KnativeService {
 
             // Get the Knative service name
             String knativeServiceName = knativeService.getMetadata().getName();
-            String namespace = knativeService.getMetadata().getNamespace();
-
+//            String namespace = knativeService.getMetadata().getNamespace();
+            String namespace = "aero";
             knativeClient.services().inNamespace("aero").create(knativeService);
 
-
+            Service knativeService2 = new ServiceBuilder()
+                    .withNewMetadata()
+                    .withName("hello2")
+                    .endMetadata()
+                    .withNewSpec()
+                    .withNewTemplate()
+                    .withNewSpec()
+                    .addNewContainer()
+                    .withImage("gcr.io/knative-samples/helloworld-go")
+                    .addNewPort()
+                    .withContainerPort(8080)
+                    .endPort()
+                    .addNewEnv()
+                    .withName("TARGET")
+                    .withValue("Go Sample v1 from Service 2")
+                    .endEnv()
+                    // Add environment variable to point to Service 1 URL
+                    .addNewEnv()
+                    .withName("SERVICE1_URL")
+                    .withValue("http://" + serviceName + ".default.svc.cluster.local")
+                    .endEnv()
+                    .endContainer()
+                    .endSpec()
+                    .endTemplate()
+                    .endSpec()
+                    .build();
+            knativeClient.services().inNamespace("aero").create(knativeService2);
             // Create NodePort Service
             ServicePort servicePort = new ServicePortBuilder()
                     .withProtocol("TCP")

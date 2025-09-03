@@ -7,7 +7,6 @@ import io.fabric8.kubernetes.client.Config;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.core.Response;
 import lombok.extern.java.Log;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class PodService {
                     .map(pod -> pod.getMetadata().getName())
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            log.severe("Create Deployment error: " + e.getMessage());
+            log.severe("Get Pods error: " + e.getMessage());
             return null;
         }
     }

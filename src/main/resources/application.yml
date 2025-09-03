@@ -17,6 +17,8 @@ quarkus:
     maestro-rest-api:
       url: http://localhost:8080/
       scope: javax.inject.Singleton
+  native:
+    march: compatibility
 k8s:
   aero:
     masterUrl: [complete]
@@ -40,12 +42,18 @@ k8s:
         methods: GET, POST, PUT, DELETE, OPTIONS
         headers: "Authorization,Content-Type,Access-Control-Allow-Origin"
         access-control-allow-credentials: true
-  smallrye-openapi:
-    info-title: Knative-Serverless-Controller
-    info-contact-email: info@ubitech.eu
-    info-contact-name: UBITECH Ltd.
-    info-contact-url: https://ubitech.eu/
-  rest-client:
-    maestro-rest-api:
-      url: ${MAESTRO_REST_API_URL}
-      scope: javax.inject.Singleton
+    smallrye-openapi:
+      info-title: Knative-Serverless-Controller
+      info-contact-email: info@ubitech.eu
+      info-contact-name: UBITECH Ltd.
+      info-contact-url: https://ubitech.eu/
+    swagger-ui:
+      always-include: true
+      path: /q/swagger-ui
+      enable: true
+    rest-client:
+      maestro-rest-api:
+        url: ${MAESTRO_REST_API_URL}
+        scope: javax.inject.Singleton
+    native:
+      march: compatibility

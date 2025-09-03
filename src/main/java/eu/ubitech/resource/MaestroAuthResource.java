@@ -6,6 +6,7 @@ import eu.ubitech.transfer.MaestroAuthDto;
 import eu.ubitech.transfer.MaestroAuthTokenDto;
 import eu.ubitech.utils.GenericMessageDto;
 import io.quarkus.security.UnauthorizedException;
+import io.vertx.core.http.HttpServerRequest;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
@@ -35,6 +36,7 @@ public class MaestroAuthResource {
     // TODO remove Request Body
     @POST
     @Path("/auth")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Authenticate with maestro", description = "Request an access token to maestro service")
     @APIResponses(value = {
             @APIResponse(responseCode = "200", description = "Successful Authentication",
@@ -54,7 +56,7 @@ public class MaestroAuthResource {
                     )
             )
     })
-    public Response maestroAuthenticate(@RequestBody MaestroAuthDto maestroAuthDto, @Context UriInfo uriInfo) {
+    public Response maestroAuthenticate(@RequestBody MaestroAuthDto maestroAuthDto, @Context HttpServerRequest request) {
 
         try {
             String authToken = maestroAuthService.maestroAuthenticate();

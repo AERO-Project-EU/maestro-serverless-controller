@@ -91,4 +91,18 @@ public class ServerlessDeploymentResource {
         }
     }
 
+    @GET
+    @Path("/status")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getDummyMaestroStatus() {
+        try {
+            String response = serverlessDeploymentService.getDummyMaestroStatus();
+            return Response.ok(response).build();
+        } catch (Exception e) {
+            log.log(Level.SEVERE, e.getMessage());
+            return Response.serverError().entity("Error occurred.").build();
+        }
+
+    }
+
 }

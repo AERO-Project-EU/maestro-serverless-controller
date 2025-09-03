@@ -20,7 +20,7 @@ public class ServerlessDeploymentService {
 
     public Response requestDeployment(Long applicationInstanceID, String authToken) {
         try {
-//            String authToken = maestroAuthService.maestroAuthenticate();
+            authToken = maestroAuthService.maestroAuthenticateWithCredentials("admin", "!1q2w3e!");
             return maestroRestClient.requestDeployment(authToken, applicationInstanceID);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -29,11 +29,21 @@ public class ServerlessDeploymentService {
 
     public Response requestUndeployment(Long applicationInstanceID, String authToken) {
         try {
-//            String authToken = maestroAuthService.maestroAuthenticate();
+            authToken = maestroAuthService.maestroAuthenticateWithCredentials("admin", "!1q2w3e!");
             return maestroRestClient.requestUndeployment(authToken, applicationInstanceID);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    public String getDummyMaestroStatus() {
+        try {
+            return maestroRestClient.getDummyMaestroStatus();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 }
