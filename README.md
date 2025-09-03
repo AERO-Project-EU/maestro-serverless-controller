@@ -1,6 +1,6 @@
 # Knative-Serverless-Controller
 
-A Quarkus Microservice to handle Serverless Knative Deployments. 
+A Quarkus Microservice to handle Serverless Knative Deployments
 
 [![License](https://img.shields.io/badge/license-Apache2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
