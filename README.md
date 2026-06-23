@@ -113,3 +113,7 @@ docker compose up -d
 #Production version
 docker compose -f docker-compose.prod.yml
 ```
+
+## Acknowledgement
+
+This work has been funded by the European Union under Horizon Europe grant 101092850 (project AERO).
