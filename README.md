@@ -75,13 +75,10 @@ The controller requires communication with MAESTRO. You can
 run MAESTRO locally or point to a remote instance — either way, set the MAESTRO
 backend URL in the configuration (see [Configuration](#configuration)).
 
-#### Kubernetes & Knative
+#### Kubernetes & Knative (optional)
 
-This controller manages Knative Serving deployments, so
-it needs access to a Kubernetes cluster with Knative Serving installed.
-<!-- TODO: document the required cluster version, Knative Serving version, how the
-controller authenticates to the cluster (kubeconfig / in-cluster service account),
-and the RBAC permissions it needs (namespaces, pods, Knative services). -->
+This controller exposes endpoints for creating/deleting dummy Knative Serving deployments, so
+it needs access to a Kubernetes cluster with Knative Serving installed to test.
 
 ## Configuration
 
@@ -91,16 +88,13 @@ Project parameters are set in **`src/main/resources/application.yaml`**:
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | `quarkus.http.port`                             | Port on which the microservice listens.                                                                       |
 | `quarkus.rest-client.maestro-rest-api.url`      | Base URL of the MAESTRO backend.                                                                              |
-| `quarkus.oidc.credentials.secret`               | Client secret of the backend client in Keycloak. **Note:** the service currently runs without Keycloak auth. |
 
 For the containerized production profile, these values are supplied through a
 `.env` file — see [`.env.example`](.env.example) for the expected keys.
 
 ## Running the Application
 
-This project is built with the **[Quarkus](https://quarkus.io/)** framework.
-<!-- TODO: confirm the exact Quarkus version from pom.xml (the previous README
-listed v3.37.2, which looks unusual for the 3.x line). -->
+This project is built with the **[Quarkus](https://quarkus.io/)** framework **v3.37.2**.
 
 ### Dev mode
 
