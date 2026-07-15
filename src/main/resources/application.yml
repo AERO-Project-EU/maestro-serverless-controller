@@ -2,13 +2,13 @@ quarkus:
   http:
     port: 9500
     cors:
-      ~: true
       origins: "*"
       methods: GET, POST, PUT, DELETE, OPTIONS
       headers: "Authorization,Content-Type,Access-Control-Allow-Origin"
-      access-control-allow-credentials: true
+      enabled: true
+  #      access-control-allow-credentials: true
   smallrye-openapi:
-    info-title: Knative-Serverless-Controller
+    info-title: knative-serverless-controller
     info-contact-email: info@ubitech.eu
     info-contact-name: UBITECH Ltd.
     info-contact-url: https://ubitech.eu/
@@ -16,9 +16,12 @@ quarkus:
     # Assuming Maestro is running on port 8080
     maestro-rest-api:
       url: http://localhost:8080/
-      scope: javax.inject.Singleton
+      scope: jakarta.inject.Singleton
   native:
     march: compatibility
+  kubernetes-client:
+    devservices:
+      enabled: false
 k8s:
   aero:
     masterUrl: [complete]
@@ -37,13 +40,13 @@ k8s:
     http:
       port: ${QUARKUS_HTTP_PORT:9500}
       cors:
-        ~: true
         origins: "*"
         methods: GET, POST, PUT, DELETE, OPTIONS
         headers: "Authorization,Content-Type,Access-Control-Allow-Origin"
-        access-control-allow-credentials: true
+        enabled: true
+    #        access-control-allow-credentials: true
     smallrye-openapi:
-      info-title: Knative-Serverless-Controller
+      info-title: knative-serverless-controller
       info-contact-email: info@ubitech.eu
       info-contact-name: UBITECH Ltd.
       info-contact-url: https://ubitech.eu/
@@ -54,6 +57,9 @@ k8s:
     rest-client:
       maestro-rest-api:
         url: ${MAESTRO_REST_API_URL}
-        scope: javax.inject.Singleton
+        scope: jakarta.inject.Singleton
+    kubernetes-client:
+      devservices:
+        enabled: false
     native:
       march: compatibility
