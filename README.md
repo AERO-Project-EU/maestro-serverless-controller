@@ -186,7 +186,7 @@ Container images are built and pushed to the project registry
 **Prerequisites**
 
 - Docker with the Buildx plugin enabled.
-- Authentication to the registry: `docker login ghcr.io/aero-project-eu`.
+- Authentication to the registry: `docker login ghcr.io -u {github_user}`.
   Set the image coordinates once so the tag lives in a single place:
 
 ```bash
