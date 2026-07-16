@@ -19,6 +19,7 @@ communicates with MAESTRO to execute incoming requests.
     - [Packaging and running](#packaging-and-running)
     - [Native executable](#native-executable)
     - [Containerized version](#containerized-version)
+    - [Building and publishing images](#building-and-publishing-images)
 - [License](#license)
 - [Acknowledgement](#acknowledgement)
 
@@ -44,7 +45,7 @@ http://PROJECT_IP:PROJECT_PORT/q/swagger-ui
 ```
 
 where `PROJECT_IP` and `PROJECT_PORT` correspond to the parameters used to run the
-microservice — for example: <http://localhost:9500/q/swagger-ui>.
+microservice, for example: <http://localhost:9500/q/swagger-ui>.
 
 <img src="img/swagger_knative_serverless_controller.png" width="auto" alt="Swagger UI for the knative-serverless-controller">
 
@@ -72,7 +73,7 @@ OpenJDK 64-Bit Server VM GraalVM CE 17.0.9+9.1 (build 17.0.9+9-jvmci-23.0-b22, m
 #### MAESTRO backend
 
 The controller requires communication with MAESTRO. You can
-run MAESTRO locally or point to a remote instance — either way, set the MAESTRO
+run MAESTRO locally or point to a remote instance. Either way, set the MAESTRO
 backend URL in the configuration (see [Configuration](#configuration)).
 
 #### Kubernetes & Knative (optional)
@@ -90,7 +91,7 @@ Project parameters are set in **`src/main/resources/application.yaml`**:
 | `quarkus.rest-client.maestro-rest-api.url`      | Base URL of the MAESTRO backend.                                                                              |
 
 For the containerized production profile, these values are supplied through a
-`.env` file — see [`.env.example`](.env.example) for the expected keys.
+`.env` file, see [`.env.example`](.env.example) for the expected keys.
 
 ## Running the Application
 
@@ -113,7 +114,7 @@ Package the application:
 ```
 
 This produces `quarkus-run.jar` in `target/quarkus-app/`. Note that this is **not**
-an _über-jar_ — dependencies are copied into `target/quarkus-app/lib/`. Run it with:
+an _über-jar_, dependencies are copied into `target/quarkus-app/lib/`. Run it with:
 
 ```bash
 java -jar target/quarkus-app/quarkus-run.jar
@@ -157,8 +158,8 @@ For more on native builds, see the [Quarkus Maven tooling guide](https://quarkus
 
 Two Compose files are provided:
 
-- **`docker-compose.yml`** — uses the project's dev-profile properties.
-- **`docker-compose.prod.yml`** — used together with a `.env` file (see `.env.example`)
+- **`docker-compose.yml`**: uses the project's dev-profile properties.
+- **`docker-compose.prod.yml`**: used together with a `.env` file (see `.env.example`)
   to configure the project's parameters explicitly.
 
 Start the containerized version:
@@ -171,6 +172,65 @@ docker compose up -d
 docker compose -f docker-compose.prod.yml up -d
 ```
 
+### Building and publishing images
+
+Container images are built and pushed to the project registry
+(`ghcr.io/aero-project-eu/maestro-serverless-controller`). Two image flavours are produced from the Dockerfiles under
+`src/main/docker/`:
+
+| Flavour | Dockerfile           | Tag suffix | Notes                                  |
+| ------- | -------------------- | ---------- | -------------------------------------- |
+| JVM     | `Dockerfile.jvm`     | _(none)_   | Runs the packaged JVM application.     |
+| Native  | `Dockerfile.native`  | `-native`  | Requires a pre-built native binary.    |
+
+**Prerequisites**
+
+- Docker with the Buildx plugin enabled.
+- Authentication to the registry: `docker login ghcr.io/aero-project-eu`.
+  Set the image coordinates once so the tag lives in a single place:
+
+```bash
+export IMAGE=ghcr.io/aero-project-eu/maestro-serverless-controller
+export VERSION=1.0.5
+```
+
+**JVM image**: build for both platforms in a single multi-arch push:
+
+```bash
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  --provenance=false \
+  -f ./src/main/docker/Dockerfile.jvm \
+  -t ${IMAGE}:${VERSION} \
+  --push .
+```
+
+> **Note:** pushing single-platform builds to the *same* tag one after another
+> overwrites the previous one — the last push wins. Use the combined
+> `--platform linux/amd64,linux/arm64` command above to get a real multi-arch tag.
+
+**Native image**: build the native binary first, then the image. Because the binary
+is platform-specific, build one platform at a time and match the image platform to the
+binary you produced:
+
+```bash
+# 1. Produce the native binary (build runs inside a container)
+./mvnw clean package -Dnative -Dquarkus.native.container-build=true
+ 
+# 2. Build and push the native image
+docker buildx build \
+  --platform linux/amd64 \
+  --provenance=false \
+  -f ./src/main/docker/Dockerfile.native \
+  -t ${IMAGE}:${VERSION}-native \
+  --push .
+```
+
+**Verify a published image** and its platforms:
+
+```bash
+docker buildx imagetools inspect ${IMAGE}:${VERSION}
+```
 ## License
 
 This project is licensed under the **Apache License 2.0** — see the
